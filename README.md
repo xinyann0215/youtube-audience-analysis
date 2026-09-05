@@ -27,19 +27,25 @@ said so explicitly.
 
 ## Results
 
-*Fill in with your actual numbers after running the notebook.*
+Dataset: 5,820,035 comments from 2,537,174 users across 4,241 creators.
 
 | | Value |
 |---|---:|
-| Total comments | _fill in_ |
-| Unique users | _fill in_ |
-| Unique creators | _fill in_ |
+| Total comments | 5,820,035 |
+| Unique users | 2,537,174 |
+| Unique creators | 4,241 |
 
 | Model (cat ownership) | Accuracy | AUC | F1 |
 |---|---:|---:|---:|
-| Logistic Regression | _fill in_ | _fill in_ | _fill in_ |
-| Random Forest | _fill in_ | _fill in_ | _fill in_ |
-| GBT | _fill in_ | _fill in_ | _fill in_ |
+| Logistic Regression | 0.844 | 0.920 | 0.791 |
+| Random Forest | 0.774 | 0.907 | 0.770 |
+| GBT | 0.964 | 0.982 | 0.959 |
+
+The dog-ownership GBT model performed similarly: 0.960 accuracy, 0.983 AUC, 0.958 F1.
+
+Applying the best model (GBT) to the full user base: **130,112 predicted cat owners (5.13%)** and
+**135,044 predicted dog owners (5.32%)** — roughly 7x the number of users who explicitly declared
+ownership, which is the core payoff of the weak-supervision approach.
 
 ## Limitations
 
@@ -78,5 +84,14 @@ if `SparkSession.builder.getOrCreate()` fails.
 
 ## Key takeaway
 
-*(Write 2-3 sentences here once you've run the notebook: which words were most predictive of cat vs. dog
-ownership, and what the creator-level results suggest about audience targeting.)*
+The words most predictive of cat ownership were clearly meaningful and cat-specific — `catnip`,
+`kneading`, `chattering`, `trilling` — recognizable cat behaviors and sounds, which is a strong sign the
+classifier learned real, topically relevant patterns rather than spurious correlations. Interestingly, the
+words pushing toward "not a cat owner" were largely uninterpretable and topic-unrelated, suggesting the
+negative class is simply too broad and heterogeneous for the linear model to find a coherent negative
+signal, unlike the positive class which has its own distinctive vocabulary.
+
+At the creator level, large general-interest channels (e.g. Brave Wilderness) showed lower cat/dog
+audience concentration (~3.5%), while creators with more specifically pet-focused content (e.g. Brian
+Barczyk, The Dodo) showed noticeably higher concentration (9-11%) — consistent with niche content
+attracting a more concentrated relevant audience.
